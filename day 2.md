@@ -90,7 +90,7 @@ There is the tkcon window too
 <img width="605" height="421" alt="image" src="https://github.com/user-attachments/assets/915c9b25-de7e-4fde-b0ef-c456f8e415a8" />
 
 # Library binding and placement
-# Netlist binding and initial place design
+## Netlist binding and initial place design
 - Bind netlists with physical cells 
   - Netlists have the stuff laid out as a diagram with the gates in shapes, but in reality, most of them are rectangles
   - These things are sourced from a “shelf” called a library, which also has info on the cells along with the dimensions of the cells themselves
@@ -135,4 +135,52 @@ There is the tkcon window too
     - smaller cell = less drive strength
 - standard cell design flow:
   - inputs (from PDKS: DRC and LVS rules, SPICE models (parameters within them are very important), some library and user-defined specs (cell height/width, supply voltage, metal layers requirement, pin locations)
-  - 
+  - design steps
+    - circuit design (implement transistors, design in a way that it will adhere to input),
+    - layout design (implement values into layout, get Euler's path -> stick diagram)
+    - characterization (steps)
+      - Read SPICE models
+      - Read extracted SPICE netist
+      - Define buffer behavior
+      - read subcircuits
+      - attach power sources
+      - apply stimulus
+      - provide necessary output capacitance
+      - provide simulation command
+      - After all of this, it is fed into the characterization software GUNA which outputs timing, noise, power, .libs, and function
+  - outputs
+    - CDL from circuit design
+    - GDSII from layout,
+    - extract parasitics(?) and characterize in terms of timing
+    - LEF for width/heignt of cell
+    - extractied SPICE netlist (parasitics and resistance, capacitance)
+    
+# General Timing Characterisation Parameters
+## Timing Threshhold Definitions
+<img width="523" height="304" alt="image" src="https://github.com/user-attachments/assets/6a2157c6-39ca-4b30-836b-7f0f0a13d18d" />
+
+above is the circuit we will be using to demo
+(all graphs have x as time and y as power from power supply
+<img width="454" height="474" alt="image" src="https://github.com/user-attachments/assets/bd290417-1cd8-4230-a20d-a1158ff5cf40" />
+
+ red = input of second inverter, blue = output of second inverter
+- on red: (use these two to calculate slew rise)
+  - slew_low_rise_threshold (thr): about 20% of power
+  - slew_high_rise_threshold: about 80% power 
+- blue is the same, just replace rise with fall
+<img width="472" height="480" alt="image" src="https://github.com/user-attachments/assets/8b4a21e2-7d34-4d2e-9f8c-04f1dcc2d88a" />
+
+red = input of first inverter,  output of second inverter
+- points to calculate rise delay (difference of time at these two points):
+  - in_rise_thr: 50% power point of red
+  - out_rise thr: 50% power point of blue
+<img width="450" height="487" alt="image" src="https://github.com/user-attachments/assets/c8ff3d21-c2cd-447a-8c1e-fb5d0ebdc5f2" />
+
+red = input of first inverter,  output of second inverter
+- points to calculate fall delay (difference of time at these two points):
+  - in_fall_thr: 50% power point of red
+  - out_fall_thr: 50% power point of blue
+## Propagation delay and transition time
+- important to select threshold points correctly as not to get negative proapagation delay (unexpected results)
+- transition time is the difference between the high and low slew times
+<img width="930" height="425" alt="image" src="https://github.com/user-attachments/assets/9ddea3c8-f867-4c41-91f1-71a576a9599b" />
