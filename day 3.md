@@ -8,7 +8,7 @@
 ## SPICE deck creation for CMOS inverter
 - step 1: create SPICE deck (connectivity info, input, tap points for outputs of a netlist)
 - step 2: define componenent values
- - first value on transistors is the channel width, second is the channel length
+  - first value on transistors is the channel width, second is the channel length
 <img width="452" height="397" alt="image" src="https://github.com/user-attachments/assets/f6e475a2-57b2-4cd0-8d4e-d6f9c99f7366" />
 
 - step 3: identify nodes (nodes = there is a component between 2 nodes because we need to define positions relative to nodes)
@@ -61,13 +61,14 @@ how to spice simulation:
 <img width="848" height="445" alt="image" src="https://github.com/user-attachments/assets/0e194e68-1270-4d91-877d-e2faced02117" />
 
 - to do this:
- - source file again
- - `run` again
- - `setplot` again -> will say it is "tran" analysis
- - type `tran2` after the qurstion mark
- - type `display` again to see options
- - `plot out vs time in`
+  - source file again
+  - `run` again
+  - `setplot` again -> will say it is "tran" analysis
+  - type `tran2` after the qurstion mark
+  - type `display` again to see options
+  - `plot out vs time in`
 <img width="744" height="612" alt="image" src="https://github.com/user-attachments/assets/40704409-2c43-4223-aa4d-190a96db0ca2" />
+
 - zoom in by selecting (zooming into the 50% point)
 - you can click on points of the graph and the terminal window will tell you what it is and you can just find the difference between the times
 <img width="241" height="221" alt="image" src="https://github.com/user-attachments/assets/1465a22b-72e6-41ef-94d7-1d7b90450e32" />
@@ -79,7 +80,7 @@ how to spice simulation:
 
 - go to the /openlane and `git clone [link]` (the link is https://github.com/nickson-jose/vsdstdcelldesign)
 - copy the ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech file to the vsdstdcelldesign directory with cp
- - `cp [path of what you want to copy] [path the where you are copying it to]`
+  - `cp [path of what you want to copy] [path the where you are copying it to]`
 - then go to where the file is copied and type `magic -T sky130A.tech sky130_inv.mag &`
 - the inverter should look like this:
 <img width="851" height="695" alt="image" src="https://github.com/user-attachments/assets/ad05a81f-d908-466b-b1a1-f0563c26cf91" />
@@ -89,16 +90,16 @@ how to spice simulation:
 16 mask cmos fabrication:
 - select substrate: most common is p type silicon (p doping 10<sup>15</sup>/cm<sup>3</sup> <- less than well)
 - creating active region:
- - 1. 40nm of silicon dioxide (SiO<sub>2</sub>)
- - 2. 80 nm of Silicon Nitride (Si<sub>3</sub>N<sub>4</sub>)
- - 3. photoresist
- - 4. mask 1 over places you don't want to get removed
- - 5. apply UV light -> chemical reaction on exposed photoresist, wash off in solution
- - 6. remove mask 1
- - 7. etch off exposed silicon nitride
- - 8. remove photoresist
- - 9. the areas pf silicon dioxide not covered by silicon nitride will grow in oxidation furnace (locos -> local oxidation of silicon), the edges of the growing places are called 'bird's beak'
- - 10. strip silicon nitride in hot phosphoric acid
+  - 1. 40nm of silicon dioxide (SiO<sub>2</sub>)
+  - 2. 80 nm of Silicon Nitride (Si<sub>3</sub>N<sub>4</sub>)
+  - 3. photoresist
+  - 4. mask 1 over places you don't want to get removed
+  - 5. apply UV light -> chemical reaction on exposed photoresist, wash off in solution
+  - 6. remove mask 1
+  - 7. etch off exposed silicon nitride
+  - 8. remove photoresist
+  - 9. the areas pf silicon dioxide not covered by silicon nitride will grow in oxidation furnace (locos -> local oxidation of silicon), the edges of the growing places are called 'bird's beak'
+  - 10. strip silicon nitride in hot phosphoric acid
  <img width="562" height="328" alt="image" src="https://github.com/user-attachments/assets/1939c057-4d82-4613-91d4-f0031581345a" />
 
 ## Formation of N and P well
@@ -124,9 +125,9 @@ next step: n and p well formation
 
 ## Lightly doped drain (LDD) formation
 - reason:
- - hot electron effect: device size decreases, electric field increases (power supply does not change)
-  - high energy can break si-si bonds -> more unexpected electrons and holes
-  - energy too high -> crosses 3.2V barrier between si conduction band and silicon dioxide conduction band -> issues
+  - hot electron effect: device size decreases, electric field increases (power supply does not change)
+    - high energy can break si-si bonds -> more unexpected electrons and holes
+    - energy too high -> crosses 3.2V barrier between si conduction band and silicon dioxide conduction band -> issues
  - short channel effect: drain field penetrates the channel -> gate cannot control current
 - mask 7 over n well -> n type impurity implantation in p - well (only a bit at surface) -> n- channel because light concentration
 - do same thing on the other side but with p type impurity (also lightly doped) -> p-
@@ -141,3 +142,25 @@ next step: n and p well formation
 <img width="535" height="240" alt="image" src="https://github.com/user-attachments/assets/752910cc-d826-40c7-a3e7-3b020ef80a49" />
 
 ## Local interconnect formation
+- etch thin oxide in hydroflouric acid solution -> gate, source, drain all open
+- deposit titanium through sputtering (titanium -> hit with argon -> particles of titanium will 'sputter' out -> deposit on substrate)
+- heat in nitrogen ambient for about a minute -> chemical reaction -> formation of some TiSi<sub>2</sub> aka titanium disilicide (low resistance) and TiN (only for local communication due to resistivity)
+- have to decide which connections are added locally (here) or with higher metal layers
+- use mask 11 to do photolithography, etch off extra titanium nitride etched off with RCA (de ionized water, ammonium hydroxide, hydrogen peroxide in 5:1:1: ratio)
+<img width="572" height="351" alt="image" src="https://github.com/user-attachments/assets/48fb0bfd-bdb4-49c2-bfe5-46f246350b93" />
+
+## Higher level metal formation
+- previous TiN situation is not flat, so it's not great
+- deposit 1um layer of silicon dioxide, doped with phosphorous or boron (phosphorous is to act as partition for sodium ions(?) and boron reduces temp) (this stuff is known as phosphosilicate glass or borophosphosilicate glass)
+- chemical mechanical polishing (cmp) -> planarize surface
+- drill contact holes with more photolithography
+  - mask 12 makes contact holes through initial doped silicon dioxide -> remove photoresist, put on 10nm layer of TiN
+  - blank tungsten layer, more cmp for planarizing so that it is level with the doped silicon dioxide layer (also removes outside TiN)
+  - aluminum layer -> mask 13, plasma etched off excess
+  - more silicon dioxide and cmp, mask 14 to make holes again, more TiN and tungsten
+  - mask 15 makes thicker aluminum layer
+  - top dielectric layer with silicon nitride -> open contack holes with mask 16
+<img width="593" height="402" alt="image" src="https://github.com/user-attachments/assets/6ad48cfb-ad63-4dcf-8c2f-59be09fe5df0" />
+
+
+
