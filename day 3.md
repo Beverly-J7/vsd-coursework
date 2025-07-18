@@ -162,5 +162,50 @@ next step: n and p well formation
   - top dielectric layer with silicon nitride -> open contack holes with mask 16
 <img width="593" height="402" alt="image" src="https://github.com/user-attachments/assets/6ad48cfb-ad63-4dcf-8c2f-59be09fe5df0" />
 
+## Lab introduction to Sky130 basic layers layout and LEF using inverter
+<img width="292" height="721" alt="image" src="https://github.com/user-attachments/assets/c081972c-7d3b-489a-afd5-3cf957c90636" />
+
+
+these things on the side here are layers, if you hover over, the name pops up in the top brown bar
+<img width="646" height="427" alt="image" src="https://github.com/user-attachments/assets/710154cb-858b-4e05-9233-715def2f0858" />
+
+you can use the select and `what` in the tkcon here too to figure out what things are
+<img width="520" height="391" alt="image" src="https://github.com/user-attachments/assets/c874290f-76cd-4286-9627-4e8ccd51fd21" />
+
+if you hit s multiple times when hovering over a component, it will select progressively more stuff tha it is connected to (this case, 3 times)
+- we use this to check connectivity of different layers
+- LEF = library exchange format which only has the metal layers (abstract below), and we are viewing a layout
+<img width="297" height="278" alt="image" src="https://github.com/user-attachments/assets/935b14f7-e26c-4cde-b89b-9541a139ca20" />
+
+- this is important when placing, as you only really need to know where the pins are
+- it also protects logic IP
+## Lab Steps to Create STD Cell Layout and Extract SPICE Netlist
+<img width="299" height="243" alt="image" src="https://github.com/user-attachments/assets/10d9b499-16f3-45b9-b0db-d81a0eaf3ac3" />
+
+- top is creating a fixed BBOX
+- rest is parameters (ll and ur mean lower left and upper right, those things are defining cooridnates for corners of the box)
+- cmos is then built step by step (power/ground pins on locali -> standard cell rows for power/ground are on metal 1)
+<img width="464" height="308" alt="image" src="https://github.com/user-attachments/assets/14baf068-8b9a-42cd-be44-74f49759b7c6" />
+
+- li con = dark blue color (between locali and metal1)
+- n substrate contact is n well -> locali, similar for
+<img width="697" height="519" alt="image" src="https://github.com/user-attachments/assets/296329c2-7888-41bb-8694-50ae716ec82c" />
+
+- DRC in corner-> as long as it is 0, no violations
+  - use the find next error in the Drc dropdown to find where the issue is (it will zoom in and highlight and also say in the tkcon)
+<img width="752" height="424" alt="image" src="https://github.com/user-attachments/assets/b1caf176-a938-42b1-9f89-3495de153a94" />
+
+- to add stuff to your layout in magic: select area, hover over layer, press middle mouse button (drc will reduce automatically)
+to know logic -> extract to spice
+- to extract: `extract all` in tkcon will extract to wherever the .inv file was
+<img width="860" height="128" alt="image" src="https://github.com/user-attachments/assets/591df854-28a4-488d-a33e-84bd3f55562d" />
+
+- need to make spice file with the .ext file -> `ext2spice cthresh 0 rthres 0` -> extract all paracsitic info
+- then type `ext2spice` to make SPICE file
+<img width="1387" height="188" alt="image" src="https://github.com/user-attachments/assets/c5b30f0a-33ff-484f-91cc-9536f0141b8d" />
+
+- 
+
+
 
 
