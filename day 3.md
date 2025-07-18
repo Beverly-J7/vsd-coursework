@@ -55,7 +55,7 @@ how to spice simulation:
 
 - when at switching threshold, the current from drain to source for the pmos is equal to the negative of the drain to source current for the nmos
 
-##Static and dynamic simulation of CMOS inverter
+## Static and dynamic simulation of CMOS inverter
 - to do dynamic sim -> input is pulse, and we will do transient analysis
 - to format pulse on input: `[name] [node] [other node] [idk what this is] pulse [start voltage] [high voltage] [shift, 0 = start at 0] [rise time] [fall time] [pulse width] [complete cycle]`
 <img width="848" height="445" alt="image" src="https://github.com/user-attachments/assets/0e194e68-1270-4d91-877d-e2faced02117" />
@@ -73,6 +73,41 @@ how to spice simulation:
 <img width="241" height="221" alt="image" src="https://github.com/user-attachments/assets/1465a22b-72e6-41ef-94d7-1d7b90450e32" />
 
 - do this for both the rise and fall delay
+## Lab Steps to git clone vsd std cell design
+- copy the url from here
+<img width="1837" height="792" alt="image" src="https://github.com/user-attachments/assets/5dac72e5-85f1-4bc4-89b5-ed2459f823d4" />
 
+- go to the /openlane and `git clone [link]` (the link is https://github.com/nickson-jose/vsdstdcelldesign)
+- copy the ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech file to the vsdstdcelldesign directory with cp
+ - `cp [path of what you want to copy] [path the where you are copying it to]`
+- then go to where the file is copied and type `magic -T sky130A.tech sky130_inv.mag &`
+- the inverter should look like this:
+<img width="851" height="695" alt="image" src="https://github.com/user-attachments/assets/ad05a81f-d908-466b-b1a1-f0563c26cf91" />
 
+# Inception of layout for CMOS fabrication process
+## Create Active Regions
+16 mask cmos fabrication:
+- select substrate: most common is p type silicon (p doping 10<sup>15</sup>/cm<sup>3</sup> <- less than well)
+- creating active region:
+ - 1. 40nm of silicon dioxide (SiO<sub>2</sub>)
+ - 2. 80 nm of Silicon Nitride (Si<sub>3</sub>N<sub>4</sub>)
+ - 3. photoresist
+ - 4. mask 1 over places you don't want to get removed
+ - 5. apply UV light -> chemical reaction on exposed photoresist, wash off in solution
+ - 6. remove mask 1
+ - 7. etch off exposed silicon nitride
+ - 8. remove photoresist
+ - 9. the areas pf silicon dioxide not covered by silicon nitride will grow in oxidation furnace (locos -> local oxidation of silicon), the edges of the growing places are called 'bird's beak'
+ - 10. strip silicon nitride in hot phosphoric acid
+ <img width="562" height="328" alt="image" src="https://github.com/user-attachments/assets/1939c057-4d82-4613-91d4-f0031581345a" />
 
+## Formation of N and P well
+next step: n and p well formation
+- more photoresist over the entire thing, mask 2 (about half)
+- do the UV light thing again, remove mask
+- now with photoresist on one half, make p well -> diffuse boron ions (ion implementation) (p-type material) through silicon dioxide
+- do the same stuff with the mask on the other half, diffuse phoshorous through silicon dioxide
+- put full thing into high-temp drive-in furnace, which drives the the boron and the phosphoous into the substrate
+<img width="540" height="280" alt="image" src="https://github.com/user-attachments/assets/49daf3d2-cae6-470d-b41c-079cfe3c46ff" />
+
+## Formation of gate terminal
