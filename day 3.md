@@ -172,7 +172,7 @@ these things on the side here are layers, if you hover over, the name pops up in
 you can use the select and `what` in the tkcon here too to figure out what things are
 <img width="520" height="391" alt="image" src="https://github.com/user-attachments/assets/c874290f-76cd-4286-9627-4e8ccd51fd21" />
 
-if you hit s multiple times when hovering over a component, it will select progressively more stuff tha it is connected to (this case, 3 times)
+if you hit s multiple times when hovering over a component, it will select progressively more stuff that it is connected to (this case, 3 times)
 - we use this to check connectivity of different layers
 - LEF = library exchange format which only has the metal layers (abstract below), and we are viewing a layout
 <img width="297" height="278" alt="image" src="https://github.com/user-attachments/assets/935b14f7-e26c-4cde-b89b-9541a139ca20" />
