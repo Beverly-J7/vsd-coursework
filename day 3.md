@@ -111,3 +111,33 @@ next step: n and p well formation
 <img width="540" height="280" alt="image" src="https://github.com/user-attachments/assets/49daf3d2-cae6-470d-b41c-079cfe3c46ff" />
 
 ## Formation of gate terminal
+- gate is where you control your threshold voltage, gate terminal fabrication is very important
+- these two factors below are most important to controlling the threshold voltage
+<img width="801" height="396" alt="image" src="https://github.com/user-attachments/assets/fce458a5-3063-46fb-995b-f6f1f383b944" />
+
+- mask 4 and photoresist (exposed p well), implantation of low energy boron at the surface of the p well (similar to mask 2)
+- mask 5 and photoresist (exposed n well), use phosphorous or arsenic at surface of n well
+- repair oxide: rine extra silicon dioxide using hydrofrouric acid over the wells and regrow it to control thickness (~10 nm)
+- grow about .4 um  of polysilicon -> dope with n type impurities (arsenic, phosphourus)
+- mask 6 and photoresist for the gate, etch away additional polysilicon
+ <img width="532" height="243" alt="image" src="https://github.com/user-attachments/assets/6d0f6c06-086a-45b4-8dd5-7d8c1687195e" />
+
+## Lightly doped drain (LDD) formation
+- reason:
+ - hot electron effect: device size decreases, electric field increases (power supply does not change)
+  - high energy can break si-si bonds -> more unexpected electrons and holes
+  - energy too high -> crosses 3.2V barrier between si conduction band and silicon dioxide conduction band -> issues
+ - short channel effect: drain field penetrates the channel -> gate cannot control current
+- mask 7 over n well -> n type impurity implantation in p - well (only a bit at surface) -> n- channel because light concentration
+- do same thing on the other side but with p type impurity (also lightly doped) -> p-
+- thick ~0.1 um silicon nitride or silicon dioxide layer -> plasma anistropic etching to create these side-wall spacers that protect parts of the lightly doped regions from further source/drain formation
+<img width="524" height="240" alt="image" src="https://github.com/user-attachments/assets/38a80ea1-ddec-4a61-be97-060ceaae84d3" />
+
+## Source – drain formation
+- the screen oxide is added to avoid channeling (when doping goes too deep/fills up substrate (very bad))
+- mask 9 over n well, same deal, arsenic added to p well side to make source (n+)
+- mask 10 for p+ (slightly less voltage) with boron
+- furnace -> high temp annealing -> pushes the p+ and n- more into the n and p well
+<img width="535" height="240" alt="image" src="https://github.com/user-attachments/assets/752910cc-d826-40c7-a3e7-3b020ef80a49" />
+
+## Local interconnect formation
