@@ -204,7 +204,33 @@ to know logic -> extract to spice
 - then type `ext2spice` to make SPICE file
 <img width="1387" height="188" alt="image" src="https://github.com/user-attachments/assets/c5b30f0a-33ff-484f-91cc-9536f0141b8d" />
 
-- 
+## Lab steps to create std cell layout and extract spice netlist
+<img width="883" height="455" alt="image" src="https://github.com/user-attachments/assets/a75d6d78-9030-4bcc-96d7-b46fcad90695" />
+
+- view spice file with `nano [file]`
+- the one that says nfet is likely an nmos, while the one that says pfet is likely a pmos
+- the order after the name [x1, ex2, etc) are the nodes corresponding to drain, gate, and source
+type `box` into tkcon to get the minimum grid box dimensions (grid behind window)
+<img width="604" height="219" alt="image" src="https://github.com/user-attachments/assets/24553654-7327-441b-9d89-cc42e737c960" />
+
+- we need the scaling to be correct (the option scale and the root box size should be the same)
+- as you can see here, it is not
+<img width="443" height="401" alt="image" src="https://github.com/user-attachments/assets/65785514-c258-43f9-8350-33ba096dd2cf" />
+
+-unfortunately, mine is indeed not a square so I just put .01u at someone's suggestion
+<img width="853" height="565" alt="image" src="https://github.com/user-attachments/assets/c5013bf7-5580-4756-8756-8db5869f608d" />
+
+- add stuff to change the scale, add vdd and vss, comment out (`//`) some existing commands, and run analysis code
+<img width="1156" height="46" alt="image" src="https://github.com/user-attachments/assets/605e4d39-170a-41e0-a6b0-9adf7c315459" />
+
+- in the pshort and nshort files here, the model for the transistors is actually listed under a different name (see below)
+<img width="428" height="362" alt="image" src="https://github.com/user-attachments/assets/a13abb6e-31b3-4609-bcad-d05a166774ed" />
+
+-we need to rename these model names so that they match
+<img width="741" height="65" alt="image" src="https://github.com/user-attachments/assets/19361a0c-3e15-4ed8-9b6c-1d46b71dd58e" />
+
+
+
 
 
 
