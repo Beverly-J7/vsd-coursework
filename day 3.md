@@ -165,7 +165,6 @@ next step: n and p well formation
 ## Lab introduction to Sky130 basic layers layout and LEF using inverter
 <img width="292" height="721" alt="image" src="https://github.com/user-attachments/assets/c081972c-7d3b-489a-afd5-3cf957c90636" />
 
-
 these things on the side here are layers, if you hover over, the name pops up in the top brown bar
 <img width="646" height="427" alt="image" src="https://github.com/user-attachments/assets/710154cb-858b-4e05-9233-715def2f0858" />
 
@@ -277,7 +276,8 @@ each of these numbers corresponds to a rule in the skywater PDK DRC
 - to paint: select area, paint command or hover over desired layer in sidebar and hit `p` or middle mouse button
 - using `cif see VIA2` -> see contact cuts for metal 3 contacts (these dark brown boxes represent mask layer for via2)
 <img width="288" height="306" alt="image" src="https://github.com/user-attachments/assets/764455c8-5637-485b-ab62-e26d5292b3ec" />
--this view is called a feedback view, which you can dismiss by typing `feed clear`
+
+- this view is called a feedback view, which you can dismiss by typing `feed clear`
 - this tech file is set up on a 0.01 micron grid, but 5 nanometer grid may help you line up the cursor correctly -> `snap int`
 - you can type `box` to view size of box selection
 <img width="1069" height="278" alt="image" src="https://github.com/user-attachments/assets/e8457eb6-c22c-4524-bff1-a94201541383" />
@@ -285,6 +285,29 @@ each of these numbers corresponds to a rule in the skywater PDK DRC
 - to erase: select area + blank space, hover over blank space and click on middle mouse button
 ## Lab exercise to fix poly.9 error in Sky130 tech-file
 
+- we will be in the poly.mag file
+- to input an _ for commands like ctrl+_, you do have to press shift
+- go to aliases section to find if there is more appropriate names for stuff
+- the process:
+  - find mentions of rule by searching for name
+  - implement changes
+  
+<img width="693" height="461" alt="image" src="https://github.com/user-attachments/assets/6663c378-6117-4dad-a950-613f7b28f917" />
+<img width="511" height="241" alt="image" src="https://github.com/user-attachments/assets/2489765b-1223-4776-b5f8-607ec40d2917" />
+
+(note: don't actually add those extra empty lines, it breaks stuff)
+in this case, I added a rule that says to specify the distance betwen `allpolynonres` and the poly resistors
+<img width="1422" height="635" alt="image" src="https://github.com/user-attachments/assets/04f4451e-a4d1-47f2-aa97-0e4ee7a11cb6" />
+
+you have to reload the tech file with `tech load [file]` and then redo the `drc check`
+<img width="524" height="285" alt="image" src="https://github.com/user-attachments/assets/c8c86daa-9469-45ca-a4ff-dd86037d9b4e" />
+
+(I accidentally clicked something, but the gray rectangle is nsubstratendiff) the fix didn't fix all cases, so we have to go back
+<img width="722" height="93" alt="image" src="https://github.com/user-attachments/assets/69c73d44-1cf1-4a8e-a94d-d0bfaaa7c7af" />
+
+(highlighted is implemented change)
+
+##
 
 
 
