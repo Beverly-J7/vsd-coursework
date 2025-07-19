@@ -229,6 +229,12 @@ type `box` into tkcon to get the minimum grid box dimensions (grid behind window
 -we need to rename these model names so that they match
 <img width="741" height="65" alt="image" src="https://github.com/user-attachments/assets/19361a0c-3e15-4ed8-9b6c-1d46b71dd58e" />
 
+-we also need to change the headers to M1000 and M1001 like in the video to get things to read
+<img width="754" height="550" alt="image" src="https://github.com/user-attachments/assets/95d89546-3766-40e1-a0c4-ab5fee0126c7" />
+
+-C3 was also changed due to the value being too low and causing spikes
+## Lab steps to characterize inverter using sky130 model files
+
 
 
 
