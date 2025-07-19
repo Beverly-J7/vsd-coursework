@@ -256,7 +256,7 @@ the top value is at 20% and and the bottom value is at 80%
 - CIF (caltech intermediate format) is human readable, GDS is not, both indicate mask data
 ## Lab introduction to Sky130 pdk's and steps to download labs
 - skywater pdk documentation: https://skywater-pdk.readthedocs.io/en/main/
-- implant layers not visible in magic -> use cifc command to highlight
+- implant layers not visible in magic -> use `cif see [layer]` command to highlight
 - to download lab files: `wget http://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz`
 - you have to then extract them using `tar xfz drc_tests.tgz`
 <img width="1407" height="295" alt="image" src="https://github.com/user-attachments/assets/32c5bb97-f6cb-435e-99a2-786cdb873678" />
@@ -264,6 +264,29 @@ the top value is at 20% and and the bottom value is at 80%
 -you can `magic -d XR` for what the instructor says is nicer graphics
 
 ## Lab introduction to Magic and steps to load Sky130 tech-rules
+- to run file, you can put `magic -d XR met3` but you can also go to the file in the top right corner of the layout window and find it through open
+<img width="1096" height="557" alt="image" src="https://github.com/user-attachments/assets/b2916185-8ec2-4e8d-ad06-e549ca2240c8" />
+
+<img width="1079" height="547" alt="image" src="https://github.com/user-attachments/assets/7b62db0e-1d8f-45ad-94b7-69ea434ceb00" />
+
+each of these numbers corresponds to a rule in the skywater PDK DRC 
+- you can type `:` or `;` to redirect keystrokes to the tkcon while still having cursor over the layout window
+- type `drc why` to get information on the drc violation
+<img width="530" height="89" alt="image" src="https://github.com/user-attachments/assets/a63f5906-8872-4807-a3b3-95cfd29b3e3a" />
+
+- to paint: select area, paint command or hover over desired layer in sidebar and hit `p` or middle mouse button
+- using `cif see VIA2` -> see contact cuts for metal 3 contacts (these dark brown boxes represent mask layer for via2)
+<img width="288" height="306" alt="image" src="https://github.com/user-attachments/assets/764455c8-5637-485b-ab62-e26d5292b3ec" />
+-this view is called a feedback view, which you can dismiss by typing `feed clear`
+- this tech file is set up on a 0.01 micron grid, but 5 nanometer grid may help you line up the cursor correctly -> `snap int`
+- you can type `box` to view size of box selection
+<img width="1069" height="278" alt="image" src="https://github.com/user-attachments/assets/e8457eb6-c22c-4524-bff1-a94201541383" />
+
+- to erase: select area + blank space, hover over blank space and click on middle mouse button
+## Lab exercise to fix poly.9 error in Sky130 tech-file
+
+
+
 
 
 
