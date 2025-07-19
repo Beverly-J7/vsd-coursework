@@ -226,14 +226,44 @@ type `box` into tkcon to get the minimum grid box dimensions (grid behind window
 - in the pshort and nshort files here, the model for the transistors is actually listed under a different name (see below)
 <img width="428" height="362" alt="image" src="https://github.com/user-attachments/assets/a13abb6e-31b3-4609-bcad-d05a166774ed" />
 
--we need to rename these model names so that they match
+- we need to rename these model names so that they match
 <img width="741" height="65" alt="image" src="https://github.com/user-attachments/assets/19361a0c-3e15-4ed8-9b6c-1d46b71dd58e" />
 
--we also need to change the headers to M1000 and M1001 like in the video to get things to read
+- we also need to change the headers to M1000 and M1001 like in the video to get things to read
 <img width="754" height="550" alt="image" src="https://github.com/user-attachments/assets/95d89546-3766-40e1-a0c4-ab5fee0126c7" />
 
--C3 was also changed due to the value being too low and causing spikes
+- C3 was also changed due to the value being too low and causing spikes
 ## Lab steps to characterize inverter using sky130 model files
+
+- type `plot y vs time a` to get a graph
+<img width="1209" height="734" alt="image" src="https://github.com/user-attachments/assets/cbb784cb-f4c4-4320-bbac-29a3630ec4d0" />
+
+- find values:
+  - rise transition -> 20% of max voltage (.66V) to 80% of max voltage (2.64V) (max is 3.3)
+  - zoom in by drag selecting with right mouse button, left click on specific point to get values here
+  <img width="339" height="95" alt="image" src="https://github.com/user-attachments/assets/0e19fa72-5e20-440d-8b83-952b6f25de57" />
+
+the top value is at 20% and and the bottom value is at 80%
+- y is voltage so we take the differense of these x values (ns  = 1e-9s) -> 2.27845 ns - 2.1974 ns = 0.0815 ns for rise time
+- you can find the fall time in a similar way
+
+-you can also find the cell rise propagation delay in a similar way, but by zooming in on the 50% point -> 0.07871 ns
+<img width="344" height="123" alt="image" src="https://github.com/user-attachments/assets/3f8addf2-9ea8-4be8-8ffd-99199452f812" />
+
+## Lab introduction to Magic tool options and DRC rules
+- here are some resources on magic: http://opencircuitdesign.com/magic/ (of note is the DRC section in the tech file manual)
+- technology file: declares a lot of stuff including rules and layers
+- CIF (caltech intermediate format) is human readable, GDS is not, both indicate mask data
+## Lab introduction to Sky130 pdk's and steps to download labs
+- skywater pdk documentation: https://skywater-pdk.readthedocs.io/en/main/
+- implant layers not visible in magic -> use cifc command to highlight
+- to download lab files: `wget http://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz`
+- you have to then extract them using `tar xfz drc_tests.tgz`
+<img width="1407" height="295" alt="image" src="https://github.com/user-attachments/assets/32c5bb97-f6cb-435e-99a2-786cdb873678" />
+
+-you can `magic -d XR` for what the instructor says is nicer graphics
+
+## Lab introduction to Magic and steps to load Sky130 tech-rules
 
 
 
