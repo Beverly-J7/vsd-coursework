@@ -307,8 +307,50 @@ you have to reload the tech file with `tech load [file]` and then redo the `drc 
 
 (highlighted is implemented change)
 
-##
+## Lab challenge exercise to describe DRC error as geometrical construct
+- when a design rule cannot be described with any of the basic commands -> use boolean operators so that the leftover is automatically an error
+- this can be used in conjunction with `cifmaxwidth` to define the max width of the leftover to be 0
+<img width="734" height="203" alt="image" src="https://github.com/user-attachments/assets/334dd5c5-43b0-4683-b544-da7983eb49a8" />
 
+- example:
+- the rule here is that the edge of the deep nwell (yellow) needs to be surrounded by a ring of nwell (green)
+- outside ring is easy to implement, inside is not
+<img width="472" height="439" alt="image" src="https://github.com/user-attachments/assets/2482a131-2f10-4255-a85e-0a2f4b3b19b5" />
+
+<img width="564" height="398" alt="image" src="https://github.com/user-attachments/assets/dd29579b-d30d-4862-b414-fa7c3961329d" />
+
+- nwell_missing layer is left over if either inside or outside layers does not reach required overlap and surround distance
+- explanation:
+<img width="575" height="47" alt="image" src="https://github.com/user-attachments/assets/6bc81ea4-60fe-4829-a040-06ef7e056863" />
+
+- dnwell_shrink is defined as shrinking dnwell by the required inside overlap amount (1030nm) -> largest open area you can have inside area of drawn dnwell
+
+<img width="360" height="70" alt="image" src="https://github.com/user-attachments/assets/876e30fc-5418-431c-b207-c213386544ce" />
+
+- nwell_missing is defined as dnwell being grown 400nm -> smallest area of nwell required to cover dnwell
+  - next it is and-not to dnwell shrink -> makes a ring shaped area that makes the minimum for the nwell
+  - and-not nwell -> any leftover =  error
+  - this is then passed to `cifmaxwidth` size of 0 to flag as error if there are leftoveers
+  - 
+> also, everything here is as temp layer (supporting layers but not on output)
+
+> the drc style doesn't have any GDS output so everything is templayer
+
+## Lab challenge to find missing or incorrect rules and fix them
+- looking at nwell.4 now -> every nwell needs n type layer contact (in magic, nsubstrate, ncontact, nsc)
+
+<img width="611" height="116" alt="image" src="https://github.com/user-attachments/assets/2214452b-838e-4c1e-b487-fae9e072b735" />
+
+- create `cifmaxwidth` for new temp layer
+<img width="504" height="402" alt="image" src="https://github.com/user-attachments/assets/73be6e6b-540e-41ae-a679-5c38f53a9ed0" />
+
+- nwell_tapped is defined as any nwell contact (nsc) expanded to fill nwell beneath
+- nwell_untapped as the and-not of nwell_tapped and nwell -> returns any nwell without nsc
+
+<img width="481" height="67" alt="image" src="https://github.com/user-attachments/assets/4d611501-5feb-46e9-9484-5434335ecc5f" />
+
+- this means that this will not be checked in the fast variant (meant for fast alterations in interactive drc)
+  - we do this so that the drc does not take too much compute time/resources in the interactive
 
 
 
