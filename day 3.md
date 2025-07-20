@@ -352,6 +352,7 @@ you have to reload the tech file with `tech load [file]` and then redo the `drc 
 - this means that this will not be checked in the fast variant (meant for fast alterations in interactive drc)
   - we do this so that the drc does not take too much compute time/resources in the interactive
 
+<img width="419" height="295" alt="image" src="https://github.com/user-attachments/assets/d856b529-792b-40aa-8dff-b012e5ae7c39" />
 
 
 
