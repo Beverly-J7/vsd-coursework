@@ -303,6 +303,7 @@ you have to reload the tech file with `tech load [file]` and then redo the `drc 
 <img width="524" height="285" alt="image" src="https://github.com/user-attachments/assets/c8c86daa-9469-45ca-a4ff-dd86037d9b4e" />
 
 (I accidentally clicked something, but the gray rectangle is nsubstratendiff) the fix didn't fix all cases, so we have to go back
+
 <img width="722" height="93" alt="image" src="https://github.com/user-attachments/assets/69c73d44-1cf1-4a8e-a94d-d0bfaaa7c7af" />
 
 (highlighted is implemented change)
