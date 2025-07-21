@@ -35,3 +35,9 @@ better/more instructions: https://github.com/nickson-jose/vsdstdcelldesign#creat
 <img width="601" height="786" alt="image" src="https://github.com/user-attachments/assets/908e0f76-7d25-4046-94b2-2bd1fd002b77" />
 
 - as you can see, pins are specified
+
+## Introduction to timing libs and steps to include new cell in synthesis
+<img width="1032" height="16" alt="image" src="https://github.com/user-attachments/assets/a0584ee0-d41e-46e6-a359-17b30620aef0" />
+
+these files has the entire characterization in it (the 'fast', 'slow', etc. is for different temp, voltage, etc)
+
