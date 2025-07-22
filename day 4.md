@@ -121,3 +121,34 @@ we made some assumptions in a simplified model of this clock tree
 ## Lab steps to verify CTS runs
 # Timing Analysis with real clocks using openSTA
 ## Setup timing analysis using real clocks
+- since this is now a real clock, you need buffers
+<img width="768" height="437" alt="image" src="https://github.com/user-attachments/assets/41e42b89-4c90-4be4-b61d-36e68e22adb7" />
+
+- these buffers have delay (corresponds to buffer number)
+- the buffer times are simplifed with deltas below
+<img width="613" height="206" alt="image" src="https://github.com/user-attachments/assets/64575125-5c02-4519-b27a-80f5b7658854" />
+
+- the time span is shifted to when the signal arrives at the launch flop, to when the original clock signal is receieved by the capture flop
+- add setup time and uncertainty (see below)
+<img width="770" height="157" alt="image" src="https://github.com/user-attachments/assets/2b5810a0-a246-4008-b0a0-5f667c72a6c8" />
+
+- slack is the data required time - data arrival time (good if it is positive or 0)
+
+hold timing analysis
+<img width="780" height="385" alt="image" src="https://github.com/user-attachments/assets/32cf9a17-f692-4258-89b1-af86416d3fd3" />
+
+-instead of syncing with the rising edge at T, it is syncing with the same rising edge
+- hold time is the second MUX delay (time for data to be sent from inside to outside)
+  - capture flop says 'please hold data, launch flop, until existing data sent out' (this is hold time)
+<img width="585" height="191" alt="image" src="https://github.com/user-attachments/assets/22905c41-777a-45f5-9e43-d5e62efed417" />
+
+-deltas mean same thing as they did before (buffer delay)
+## Hold timing analysis using real clocks
+- jitter is less of an issue as we are using the same edge (uncertainty value kept relatively low)
+- hold time also comes with uncertainty (HU)
+- slack is now data arrival time - data required time (expect arrival time to be larger)
+<img width="869" height="260" alt="image" src="https://github.com/user-attachments/assets/210dde7f-51fd-4afb-bff6-4882054f7420" />
+
+-delta 1 and delta 2 are a combination of the buffer and wire delays to get the signal where it needs to go
+<img width="884" height="472" alt="image" src="https://github.com/user-attachments/assets/d71ebed0-7daa-48d2-b1c0-116aa79dc058" />
+
