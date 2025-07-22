@@ -92,4 +92,32 @@ we made some assumptions in a simplified model of this clock tree
 ## lab steps to optimize synthesis to reduce setup violations
 ## Lab steps to do basic timing ECO
 # Clock tree synthesis TritonCTS and signal integrity
-##
+## Clock tree routing and buffering using H-Tree algorithm
+- the point of the clock tree is to connect clock signal to components as best as possible (minimize skew)
+- skew is the difference in time that the components are receiving the clock signal -> minimize for timing
+- H-tree routing (a way to route clock tree) -> take middle point between all components that need clock to ensure that wire delay is same
+<img width="567" height="451" alt="image" src="https://github.com/user-attachments/assets/b4e3c8a0-ccf7-4914-8aa7-c5cd7a699ff9" />
+
+- issue right now is that this distance creates a lot of resistance and capacitance -> signal changes = bad
+<img width="575" height="179" alt="image" src="https://github.com/user-attachments/assets/a09dfc98-ad7c-421d-a05b-56a6120b6c5a" />
+
+- solution: more repeater buffers  (red buffers in image below)
+  - for clocks specifically, these repeaters need equal rise/fall time
+<img width="547" height="401" alt="image" src="https://github.com/user-attachments/assets/29935c95-f986-46f4-85bd-a075ea7556a1" />
+
+## Crosstalk and clock net shielding
+- crosstalk = bad, need to shield clock net
+- to shield -> protect from outside (if the capacitance is big enough between wires it can cause coupling)
+- coupling causes 2 issues: glitch, delta delay
+  - glitch: with large enough capacitance, things happeing on one wire can affect results on other wire (cause changes in voltage -> binary wrong = many bad things depending on function of circuit)
+  - delta delay: if the other wire switches while the 'victim' wire is switching -> it will intermittently try to charge and cause additional delay -> more skew
+<img width="156" height="53" alt="image" src="https://github.com/user-attachments/assets/6b3d30a8-2c89-4bc7-821d-df26a57344b2" />
+
+- shielding: 2 wires on the sides that are connected to power/ground -> idea is that it will not switch so the wire will not switch
+- shield all critical nets (such as clock nets and critical data nets) to prevent (unfortunately cannot shield all because extra routing resources)
+<img width="498" height="365" alt="image" src="https://github.com/user-attachments/assets/413bc0ba-5156-42aa-9cd0-efc13f974269" />
+
+## Lab steps to run CTS using TritonCTS
+## Lab steps to verify CTS runs
+# Timing Analysis with real clocks using openSTA
+## Setup timing analysis using real clocks
