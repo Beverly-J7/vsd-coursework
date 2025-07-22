@@ -59,3 +59,37 @@ we made some assumptions in a simplified model of this clock tree
 - find delay with corresponding input slew and output load
 - the labels are to define what the w/l ratio of the pmos and nmos is and the size of the device (this varies resistance)
 - if the delay is not listed you can interpolate or extrapolate based off of existing data
+## Delay table usage Part 2
+<img width="859" height="351" alt="image" src="https://github.com/user-attachments/assets/93aa53b0-a55c-4a7f-9c45-81e9fe89a221" />
+
+- for something like this, you can also calculate output slew as a function of input slew and output load, which you feed to the next input
+- skew = difference between delay at same level (this is why it is good to have the same load and same type at each level of the tree)
+## Lab steps to configure synthesis settings to fix slack and include vsdinv
+# Timing analysis with ideal clocks using openSTA
+## Setup timing analysis and introduction to flip-flop setup time
+- We are going to be doing an ideal clock analysis (no clock tree) with a single clock setup
+<img width="810" height="479" alt="image" src="https://github.com/user-attachments/assets/c7f998ae-2564-466a-80d1-b42fd12a419f" />
+
+-theta = combinational delay
+- T = time (of 1 period)
+- For this to work, theta < T, because otherwise, the period is larger than the real clock period
+<img width="778" height="284" alt="image" src="https://github.com/user-attachments/assets/7bd56f7a-c67d-40e7-bf37-e5c847239bf4" />
+
+- however, components are not just black boxes, they have stuff inside
+- these flip-flops have MUXs inside of them, which each have their own delay -> there is a finite time, setup time (S), that the flip-flop needs to take before the signal can reach Q<sub>M</sub
+<img width="775" height="445" alt="image" src="https://github.com/user-attachments/assets/703beb6f-732d-425c-aafc-61f4ad6bb179" />
+
+## Introduction to clock jitter and uncertainty
+- clocks are not perfect -> going to have a bit of time variation-> jitter
+- model jitter with uncertainty (SU or setup uncertainty, this is for setup analysis)
+<img width="819" height="497" alt="image" src="https://github.com/user-attachments/assets/82ae0535-fdb4-48cc-a4c5-5af2a8ea64ca" />
+
+- for example, with this circuit:
+<img width="745" height="243" alt="image" src="https://github.com/user-attachments/assets/287128f0-45e6-4efa-8968-e20cfe3b51cb" />
+
+- clock analysis is performed to make sure that the placement works with the specifications
+## Lab steps to configure open STA for post synth timing analysis
+## lab steps to optimize synthesis to reduce setup violations
+## Lab steps to do basic timing ECO
+# Clock tree synthesis TritonCTS and signal integrity
+##
