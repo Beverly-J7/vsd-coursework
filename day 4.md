@@ -41,3 +41,21 @@ better/more instructions: https://github.com/nickson-jose/vsdstdcelldesign#creat
 
 these files has the entire characterization in it (the 'fast', 'slow', etc. is for different temp, voltage, etc)
 
+- we add these to the config.tcl file:
+<img width="1292" height="525" alt="image" src="https://github.com/user-attachments/assets/f59d09dd-836c-4ec6-ac25-7ce590ed42b1" />
+
+-set up openlane normally, but add ` -tag [whatever run you want to continue with] -overwrite` after `prep -design picorv32a`
+<img width="925" height="158" alt="image" src="https://github.com/user-attachments/assets/51a6319a-08b0-4dba-be92-a89e4a2df36e" />
+
+## Introduction to delay tables
+<img width="771" height="306" alt="image" src="https://github.com/user-attachments/assets/09c1b1d6-fa29-41f9-bd49-914a0b3ebd6e" />
+
+we made some assumptions in a simplified model of this clock tree
+- in reality the capacitance and load varies -> input transition also varies
+- this is why we use delay tables -> axis of input transition and output load -> calculate delay
+
+## Delay table usage Part 1
+- all gates will have their own delay tables
+- find delay with corresponding input slew and output load
+- the labels are to define what the w/l ratio of the pmos and nmos is and the size of the device (this varies resistance)
+- if the delay is not listed you can interpolate or extrapolate based off of existing data
