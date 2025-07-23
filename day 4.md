@@ -41,11 +41,9 @@ better/more instructions: https://github.com/nickson-jose/vsdstdcelldesign#creat
 
 these files has the entire characterization in it (the 'fast', 'slow', etc. is for different temp, voltage, etc)
 
-- we add these to the config.tcl file:
-<img width="1292" height="525" alt="image" src="https://github.com/user-attachments/assets/f59d09dd-836c-4ec6-ac25-7ce590ed42b1" />
 
--set up openlane normally, but add ` -tag [whatever run you want to continue with] -overwrite` after `prep -design picorv32a`
-<img width="925" height="158" alt="image" src="https://github.com/user-attachments/assets/51a6319a-08b0-4dba-be92-a89e4a2df36e" />
+-set up openlane normally, but add ` -tag [whatever run you want to continue with] -overwrite` after `prep -design picorv32a`, along with two extra commands for the .lef files, and then we just `run_synthesis`
+<img width="1786" height="621" alt="image" src="https://github.com/user-attachments/assets/6840bbdd-e3bb-445e-b005-c20596b0194f" />
 
 ## Introduction to delay tables
 <img width="771" height="306" alt="image" src="https://github.com/user-attachments/assets/09c1b1d6-fa29-41f9-bd49-914a0b3ebd6e" />
@@ -65,6 +63,7 @@ we made some assumptions in a simplified model of this clock tree
 - for something like this, you can also calculate output slew as a function of input slew and output load, which you feed to the next input
 - skew = difference between delay at same level (this is why it is good to have the same load and same type at each level of the tree)
 ## Lab steps to configure synthesis settings to fix slack and include vsdinv
+
 # Timing analysis with ideal clocks using openSTA
 ## Setup timing analysis and introduction to flip-flop setup time
 - We are going to be doing an ideal clock analysis (no clock tree) with a single clock setup
