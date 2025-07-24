@@ -34,6 +34,20 @@ algorithm:
 <img width="326" height="324" alt="image" src="https://github.com/user-attachments/assets/923069b3-6a0e-405c-a305-1fab37002cf8" />
 <img width="275" height="225" alt="image" src="https://github.com/user-attachments/assets/a9d1d02c-0ac4-4d31-ba91-06c9a4611b98" />
 
+# Power distribution network and routing
+## Lab steps to build power distribution network
+(insert notes from first half here): 4:13
+- tritonroute is used for routing when `run_routing` is done
+- routing is divided into 2 steps, global/fast route and detailed route
+  - global route is divded into grid cells for speed reasons, makes a route guide
+  - detail route uses algorithm to find best connectivity based off of route guide
+  <img width="846" height="438" alt="image" src="https://github.com/user-attachments/assets/78ecd4df-b0ec-476a-8fa2-f3f028184cba" />
 
-
+## Lab steps from power straps to std cell power
+## Basics of global and detail routing and configure TritonRoute
+# TritonRoute Features
+## TritonRoute Feature 1 Honors pre processed route guides
+## Feature2 & 3 Inter-guide connectivity and intra and inter layer routing
+## TritonRoute method to handle connectivity
+## Routing topology algorithm and final files list post-route
 
