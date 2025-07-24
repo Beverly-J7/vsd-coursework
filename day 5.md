@@ -8,12 +8,14 @@ algorithm:
 - creates 2 points -> source (S) and target (T)
 - labels obstructions such as the pre-placed (need to avoid these places when routing)
 <img width="213" height="156" alt="image" src="https://github.com/user-attachments/assets/d55155f3-c1be-4bc7-9761-98d8b5228af7" />
+
 - starts by labelling the horizontal and vertical adjacent to source as 1, and then expands similarly with each step incremeting number until it reaches target
 <img width="351" height="334" alt="image" src="https://github.com/user-attachments/assets/34b66936-f881-442c-8107-a49ab8bb1820" />
 
 ## Lee’s Algorithm conclusion
 - the algorithm follows the cell numbers and chooses the path with minimum bends in order to make the shortest path
 <img width="435" height="468" alt="image" src="https://github.com/user-attachments/assets/1502258b-ca0e-4b99-965f-13836dd8e549" />
+
 ## Design Rule Check
 <img width="300" height="253" alt="image" src="https://github.com/user-attachments/assets/4cca2946-8b71-41ff-8db7-6fa927c9f397" />
 
