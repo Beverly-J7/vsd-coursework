@@ -40,6 +40,16 @@ algorithm:
 ## Lab steps to build power distribution network
 
 ## Lab steps from power straps to std cell power
+(first portion only, start when changes to terminal window again)
+
+<img width="577" height="384" alt="image" src="https://github.com/user-attachments/assets/a9684f19-9db6-4553-949f-54f3e7c78e49" />
+
+- boxes are IO and power/ground (red -> power, blue -> ground), corner squares are corner pads
+- note that power/ground are in rings
+- vertical red and blue are the stripes (connected to the ring on both sides)
+- crosses are vias
+- boxes in the green area are standard cells (placed in rows labelled standard cell row)
+- these power stripes are connected to the standard cell rails to supply power to standard cells, macros are connected similarly
 ## Basics of global and detail routing and configure TritonRoute
 
 (insert notes from first half here): 4:13
