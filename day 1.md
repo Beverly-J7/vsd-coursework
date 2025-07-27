@@ -1,3 +1,4 @@
+(NOTE: Going forwards, any image of a terminal with a black background is not mine. Those images are from the coursework videos. Any image of a terminal with a purple background is mine. Additionally, some images from videos, especially diagrams, are used for clarity reasons to help myself understand the content. If an image is not of software, it is likely from the videos.)
 # How to Talk to Computers
 ## Introduction to QFN-48 Package, chip, pads, core, die and IPs
 - Package has chip inside
@@ -137,7 +138,7 @@
   - Libs.tech has stuff for all of the software tools and libs.ref has technology/foundry related processes
 <img width="841" height="248" alt="image" src="https://github.com/user-attachments/assets/f4b7423f-7275-417b-b799-e04207d05251" />
 
-    - We will be using sky130_fd_sc_hd (skywater foundry standard cell (hd is a variant))
+- We will be using sky130_fd_sc_hd (skywater foundry standard cell (hd is a variant))
 <img width="773" height="173" alt="image" src="https://github.com/user-attachments/assets/a46e74c8-0f7f-4d37-8a2b-d9a8a931c073" />
 
 - Openlane directory:
@@ -149,6 +150,8 @@ Then type `./flow.tcl -interactive`
 - Then type `package require openlane 0.9` to open packages needed **(NEED TO DO THIS EVERY TIME)**
 - Openlane’s designs are in the design folder, and we are interested in picorv32a 
 <img width="926" height="199" alt="image" src="https://github.com/user-attachments/assets/810d7d4b-d882-4b19-aa64-599898746e1d" />
+
+
 <img width="571" height="609" alt="image" src="https://github.com/user-attachments/assets/553bdb10-8ef3-4930-b498-c387f46b26d6" />
 
 - There is a config.tcl file inside, which has some specifications 
