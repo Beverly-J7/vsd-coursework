@@ -47,7 +47,7 @@ these files has the entire characterization in it (the 'fast', 'slow', etc. is f
 - set up openlane normally, but add ` -tag [whatever run you want to continue with] -overwrite` after `prep -design picorv32a`, along with two extra commands for the .lef files, and then we just `run_synthesis`
 <img width="1786" height="621" alt="image" src="https://github.com/user-attachments/assets/6840bbdd-e3bb-445e-b005-c20596b0194f" />
 
-to confirm it ran, make sure it's included in the printed stats
+to confirm it ran correctly, make sure it's included in the printed stats
 <img width="473" height="212" alt="image" src="https://github.com/user-attachments/assets/107e747d-2c0a-4bb4-9b12-d487f20d598a" />
 
 ## Introduction to delay tables
@@ -74,6 +74,17 @@ we made some assumptions in a simplified model of this clock tree
 - after running floorplan, we see that the slack violation was really small, so we didn't have to worry about it.
 <img width="453" height="148" alt="image" src="https://github.com/user-attachments/assets/18713c74-8758-4262-850a-04ea323f07ab" />
 - this floorplan came up with some macro errors, so I ran `init_floorplan`, `place_io`,`global_placement_or`,`detailed_placement`,`tap_decap_or`, and then `detailed_placement` again, as suggested by Sophia C. in my class's discord server.
+- we can see the placement files here:
+- <img width="1302" height="37" alt="image" src="https://github.com/user-attachments/assets/730f86c4-74f1-4200-a79e-132935f06e15" />
+
+- open magic (outside the docker) with this: ` magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def` while in that directory, and we can see that it has placed:
+<img width="1849" height="850" alt="image" src="https://github.com/user-attachments/assets/2d803698-15fa-4e21-8e7d-45eee0012531" />
+
+- if we zoom in, we can see our cell:
+<img width="251" height="284" alt="image" src="https://github.com/user-attachments/assets/4678b7e7-301b-43c1-b373-09043789aff4" />
+
+- the overlap is so that the power/ground rails are shared (you can see overlapping contacts here)
+<img width="985" height="476" alt="image" src="https://github.com/user-attachments/assets/0d661b4c-0467-4b03-b1c8-6e323836089b" />
 
 # Timing analysis with ideal clocks using openSTA
 ## Setup timing analysis and introduction to flip-flop setup time
