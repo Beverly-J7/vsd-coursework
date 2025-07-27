@@ -110,6 +110,9 @@ we made some assumptions in a simplified model of this clock tree
 
 - clock analysis is performed to make sure that the placement works with the specifications
 ## Lab steps to configure open STA for post synth timing analysis
+- I had to create a pre_sta.conf file here, with these contents:
+<img width="1844" height="430" alt="image" src="https://github.com/user-attachments/assets/a97207b9-13b0-463f-b8e5-bc20679e53ff" />
+
 ## lab steps to optimize synthesis to reduce setup violations
 ## Lab steps to do basic timing ECO
 # Clock tree synthesis TritonCTS and signal integrity
