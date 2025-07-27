@@ -41,9 +41,14 @@ better/more instructions: https://github.com/nickson-jose/vsdstdcelldesign#creat
 
 these files has the entire characterization in it (the 'fast', 'slow', etc. is for different temp, voltage, etc)
 
+- edit the config file like this: (you need to have the part after the (OPENLANE_ROOT) the path after the openlane directory)
+<img width="1231" height="615" alt="image" src="https://github.com/user-attachments/assets/42d23d58-eb48-4f92-8185-da8513c16e35" />
 
--set up openlane normally, but add ` -tag [whatever run you want to continue with] -overwrite` after `prep -design picorv32a`, along with two extra commands for the .lef files, and then we just `run_synthesis`
+- set up openlane normally, but add ` -tag [whatever run you want to continue with] -overwrite` after `prep -design picorv32a`, along with two extra commands for the .lef files, and then we just `run_synthesis`
 <img width="1786" height="621" alt="image" src="https://github.com/user-attachments/assets/6840bbdd-e3bb-445e-b005-c20596b0194f" />
+
+to confirm it ran, make sure it's included in the printed stats
+<img width="473" height="212" alt="image" src="https://github.com/user-attachments/assets/107e747d-2c0a-4bb4-9b12-d487f20d598a" />
 
 ## Introduction to delay tables
 <img width="771" height="306" alt="image" src="https://github.com/user-attachments/assets/09c1b1d6-fa29-41f9-bd49-914a0b3ebd6e" />
@@ -63,6 +68,12 @@ we made some assumptions in a simplified model of this clock tree
 - for something like this, you can also calculate output slew as a function of input slew and output load, which you feed to the next input
 - skew = difference between delay at same level (this is why it is good to have the same load and same type at each level of the tree)
 ## Lab steps to configure synthesis settings to fix slack and include vsdinv
+
+- the video had some significant slack violations, but it didn't show for me so we proceeed
+- to fix for slack violations, look at the SYNTH_STRATEGY, SYNTH_BUFFERING, SYNTH_SIZING, and SYNTH_DRIVING_CELL variables (set the same way as in the config file, you can use `echo` instead of `set` to view the current value
+- after running floorplan, we see that the slack violation was really small, so we didn't have to worry about it.
+<img width="453" height="148" alt="image" src="https://github.com/user-attachments/assets/18713c74-8758-4262-850a-04ea323f07ab" />
+- this floorplan came up with some macro errors, so I ran `init_floorplan`, `place_io`,`global_placement_or`,`detailed_placement`,`tap_decap_or`, and then `detailed_placement` again, as suggested by Sophia C. in my class's discord server.
 
 # Timing analysis with ideal clocks using openSTA
 ## Setup timing analysis and introduction to flip-flop setup time
