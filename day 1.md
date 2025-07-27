@@ -1,4 +1,4 @@
-(NOTE: Going forwards, any image of a terminal with a black background is not mine. Those images are from the coursework videos. Any image of a terminal with a purple background is mine. Additionally, some images from videos, especially diagrams, are used for clarity reasons to help myself understand the content. If an image is not of software, it is likely from the videos.)
+(NOTE: Going forwards, any image of a terminal with a black background is not mine. Those images are from the coursework videos. Any image of a terminal with a purple background is mine. Additionally, some images from videos, especially diagrams, are used for clarity reasons to help myself understand the content. If an image is not of the software we are using for lab sections, it is likely from the videos.)
 # How to Talk to Computers
 ## Introduction to QFN-48 Package, chip, pads, core, die and IPs
 - Package has chip inside
