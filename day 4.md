@@ -258,4 +258,88 @@ hold timing analysis
 
 -delta 1 and delta 2 are a combination of the buffer and wire delays to get the signal where it needs to go
 <img width="884" height="472" alt="image" src="https://github.com/user-attachments/assets/d71ebed0-7daa-48d2-b1c0-116aa79dc058" />
+## Lab steps to analyze timing  with real clocks using OpenSTA
+- first, we open openroad by typing `openroad` into the docker
+  <img width="1099" height="96" alt="image" src="https://github.com/user-attachments/assets/1a87131a-10d8-46e9-9bb0-ed5d07952c49" />
 
+- the advantage of this is that we can just use the env variables instead of having to define it like in the base file from eariler
+- we read the lef with `read_lef /openLANE_flow/designs/picorv32a/runs/17-07_00-07/tmp/merged.lef`
+<img width="974" height="141" alt="image" src="https://github.com/user-attachments/assets/8d6beae5-9e27-40ec-8338-82d03aec06df" />
+
+- we read the def with `read_def /openLANE_flow/designs/picorv32a/runs/17-07_00-07/results/cts/picorv32a.cts.def`
+<img width="1069" height="167" alt="image" src="https://github.com/user-attachments/assets/d4a4cf27-3c6f-45fd-a061-a1bad42e8d9c" />
+
+- we can now make a db with `write_db pico_cts.db`
+-as we can see, the db is here:
+<img width="1633" height="58" alt="image" src="https://github.com/user-attachments/assets/409abf84-5803-4d8b-99ae-407d4e5184c8" />
+
+-we then read the db and read the cts verilog file:
+<img width="997" height="46" alt="image" src="https://github.com/user-attachments/assets/0ae6e033-f461-4b83-9f75-13afc622a5b4" />
+
+- we then have it read the slow lib, which is referred to as LIB_MAX in the tutorial, but only works as LIB_SLOWEST for me
+<img width="429" height="99" alt="image" src="https://github.com/user-attachments/assets/9e6ad889-d1c3-4b8c-a527-405da1babadc" />
+
+- same goes with min -> LIB_FASTEST
+- we get it to read the sdc file frome earlier:
+<img width="744" height="91" alt="image" src="https://github.com/user-attachments/assets/80b53dc0-75a1-40df-80a1-db036d3dc6d9" />
+
+- we can now use the actual clocks for cell delay and we set them with `set_propagated_clock [all_clocks]`
+- we can now have it report the results with `report_checks -path_delay min_max -format full_clock_expanded -digits 4`
+- hold slack:
+<img width="789" height="771" alt="image" src="https://github.com/user-attachments/assets/51d9697e-36ae-4b87-a168-e7a8eea3c670" />
+
+- hold slack will partially be rectified by routing, as that is when the resistance and capacitance of traces come into the picture, which change the arrival time
+- slack we were working with earlier:
+<img width="713" height="418" alt="image" src="https://github.com/user-attachments/assets/06080b35-4ec7-4f7a-9e97-3ae086c312a4" />
+
+## Lab steps to execute OpenSTA with right timing libraries and CTS assignment
+- this analysis is actually slightly incorrect because we are using min max while we made this for the typical (this is due to tritoncts limitations)
+- we first need to exit out of openroad (type `exit`)
+- we then enter back into openroad and have it read our db and verilog again, but use `read_liberty $::env(LIB_SYNTH_COMPLETE)` (this points to the typical lib)
+- we then use `link_design picorv32a` and read the sdc and clocks like earlier
+- then type `report_checks -path_delay min_max -fields {slew trans net cap input_pin} -format full_clock_expanded -digits 4` for the report
+<img width="1070" height="259" alt="image" src="https://github.com/user-attachments/assets/0f6f9181-791c-4aae-af1e-40f7f0fd371d" />
+
+- we can see that the hold slack is met
+<img width="1010" height="615" alt="image" src="https://github.com/user-attachments/assets/d17daeaf-3108-494d-a585-9199964103bd" />
+
+- the setup slack is not bet but much closer
+<img width="872" height="499" alt="image" src="https://github.com/user-attachments/assets/95c3105d-d70e-4ae0-b7aa-9d9c4eff2864" />
+
+- tritoncts goes throgh the buffer list, trying each buffer (left to right) until the target skew is met
+<img width="964" height="43" alt="image" src="https://github.com/user-attachments/assets/40d11146-2d9b-4032-a91d-8ab992063188" />
+
+- we can do `set ::env(CTS_CLK_BUFFER_LIST) [lreplace $::env(CTS_CLK_BUFFER_LIST) 0 0]` to remove the leftmost buffer from the list 
+<img width="781" height="44" alt="image" src="https://github.com/user-attachments/assets/4ca7a85d-87a4-40ba-b859-48763a1500e6" />
+
+- we then run cts
+
+## Lab steps to observe impact of bigger CTS buffers on setup and hold timing
+- we get some errors
+<img width="1826" height="159" alt="image" src="https://github.com/user-attachments/assets/2258ffa2-cbbf-48a4-a379-99e1471ab534" />
+
+- the issue is that the current def is set after cts, which is not good because we are rerunning cts
+- thus, we set it to the one from placement (as that was the last step before cts)
+<img width="1079" height="113" alt="image" src="https://github.com/user-attachments/assets/c0cbfecf-d1be-4b27-b52b-8c18fb6e8ee5" />
+
+- we re-run cts and it works
+<img width="1379" height="416" alt="image" src="https://github.com/user-attachments/assets/e6032f74-68fa-44e4-8cf0-402c9736c2c2" />
+  
+- we get back into openroad and make a db the same way as last time, but we name it pico_cts1.db
+<img width="1095" height="270" alt="image" src="https://github.com/user-attachments/assets/9c9453ab-bf23-469c-ba26-ab61a8c1ad38" />
+
+- we then read the verilog with `read_verilog /openLANE_flow/designs/picorv32a/runs/17-07_00-07/results/synthesis/picorv32a.synthesis.v` like last time, along with reading the LIB_SYNTH_COMPLETE lib, linking the design, reading the sdc, setting the clocks, and doing the same report checks as before
+<img width="1174" height="548" alt="image" src="https://github.com/user-attachments/assets/822e055a-3f52-48a6-b46f-a15082674d5b" />
+
+- we now get our new slacks (hold first, setup second)
+<img width="811" height="364" alt="image" src="https://github.com/user-attachments/assets/bb28932b-425f-4bb1-ae4d-409e1e38069a" />
+<img width="875" height="418" alt="image" src="https://github.com/user-attachments/assets/ade0c657-c1f2-48ff-bd30-11d33fd8e318" />
+
+- we can also report skew as shown:
+<img width="405" height="311" alt="image" src="https://github.com/user-attachments/assets/3ecdb5b1-6689-43f4-8692-49f5350ecb2d" />
+
+- to add the buffer back:
+  - exit openroad
+  - type `set ::env(CTS_CLK_BUFFER_LIST) [linsert $::env(CTS_CLK_BUFFER_LIST) 0 sky130_fd_sc_hd__clkbuf_1]`
+
+<img width="1027" height="136" alt="image" src="https://github.com/user-attachments/assets/d36127b2-a6ab-4d8f-8ef2-4290c632f039" />
