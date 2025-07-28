@@ -47,7 +47,7 @@ these files has the entire characterization in it (the 'fast', 'slow', etc. is f
 - set up openlane normally, but add ` -tag [whatever run you want to continue with] -overwrite` after `prep -design picorv32a`, along with two extra commands for the .lef files, and then we just `run_synthesis`
 <img width="1786" height="621" alt="image" src="https://github.com/user-attachments/assets/6840bbdd-e3bb-445e-b005-c20596b0194f" />
 
-to confirm it ran correctly, make sure it's included in the printed stats
+- to confirm it ran correctly, make sure it's included in the printed stats
 <img width="473" height="212" alt="image" src="https://github.com/user-attachments/assets/107e747d-2c0a-4bb4-9b12-d487f20d598a" />
 
 ## Introduction to delay tables
@@ -73,6 +73,7 @@ we made some assumptions in a simplified model of this clock tree
 - to fix for slack violations, look at the SYNTH_STRATEGY, SYNTH_BUFFERING, SYNTH_SIZING, and SYNTH_DRIVING_CELL variables (set the same way as in the config file, you can use `echo` instead of `set` to view the current value
 - after running floorplan, we see that the slack violation was really small, so we didn't have to worry about it.
 <img width="453" height="148" alt="image" src="https://github.com/user-attachments/assets/18713c74-8758-4262-850a-04ea323f07ab" />
+
 - this floorplan came up with some macro errors, so I ran `init_floorplan`, `place_io`,`global_placement_or`,`detailed_placement`,`tap_decap_or`, and then `detailed_placement` again, as suggested by Sophia C. in my class's discord server.
 - we can see the placement files here:
 - <img width="1302" height="37" alt="image" src="https://github.com/user-attachments/assets/730f86c4-74f1-4200-a79e-132935f06e15" />
@@ -111,10 +112,37 @@ we made some assumptions in a simplified model of this clock tree
 - clock analysis is performed to make sure that the placement works with the specifications
 ## Lab steps to configure open STA for post synth timing analysis
 - I had to create a pre_sta.conf file here, with these contents:
-<img width="1844" height="430" alt="image" src="https://github.com/user-attachments/assets/a97207b9-13b0-463f-b8e5-bc20679e53ff" />
+<img width="1849" height="344" alt="image" src="https://github.com/user-attachments/assets/71976631-f997-4fa7-a009-d129de0e1093" />
+
+- additionally, I needed to create a my_base.sdc:
+<img width="1849" height="734" alt="image" src="https://github.com/user-attachments/assets/06c6e0ce-c17f-47ff-b743-05c32ebb4d8a" />
+
+- afterwards, we run STA with `sta pre-sta.conf`, and the slack violation time has changed
+<img width="1139" height="265" alt="image" src="https://github.com/user-attachments/assets/6f456997-8f7d-4426-af6e-54ae50c84378" />
 
 ## lab steps to optimize synthesis to reduce setup violations
+- since we had significant violations, I used the commands we were supposed to use earlier here, along with changing the synth max fanout
+<img width="447" height="138" alt="image" src="https://github.com/user-attachments/assets/1f365ece-308e-46ad-b3d1-75f98a122dd3" />
+
+- due to the fact that it wouldn't let me re-run synthesis normally, I had to exit and then re run synthesis with those commands included (IT RESETS)
+- you can view the connections of the pins after running sta with `report_net -connections _[pin]_`
+<img width="469" height="232" alt="image" src="https://github.com/user-attachments/assets/012e10ce-7cf5-435f-9da8-bae0e721c59c" />
+
+- one of the ways to reduce the slack violations is to replace buffers with buffers of larger sizes to decrease the signal decay. we can do that with `replace_cell _14440_ sky130_fd_sc_hd__buf_4` (note that 14440 was the input for the above)
+
+- you can check the output again with `report_checks -fields {net cap slew input_pins} -digits 4` (-fields specifies the fields to be checked, - digits specifies the sig figs)
+
+
+
 ## Lab steps to do basic timing ECO
+
+- we can do similar things with the other cells that have very high delays and slews
+  - since I don't have a lot of buffers, I used https://sky130-unofficial.readthedocs.io/en/latest/contents/libraries/sky130_fd_sc_hd/README.html to find different sizes for the cells.
+- we can see that the the slack has gone down a bit
+<img width="363" height="44" alt="image" src="https://github.com/user-attachments/assets/739a5626-c102-4d26-82e4-2267a3093415" />
+- and that the tns and wns are improved a bit too:
+<img width="167" height="95" alt="image" src="https://github.com/user-attachments/assets/bf0ae5a3-a1ea-4f59-bf32-98a698f0a823" />
+
 # Clock tree synthesis TritonCTS and signal integrity
 ## Clock tree routing and buffering using H-Tree algorithm
 - the point of the clock tree is to connect clock signal to components as best as possible (minimize skew)
@@ -142,7 +170,62 @@ we made some assumptions in a simplified model of this clock tree
 <img width="498" height="365" alt="image" src="https://github.com/user-attachments/assets/413bc0ba-5156-42aa-9cd0-efc13f974269" />
 
 ## Lab steps to run CTS using TritonCTS
+- we can do the same thing as before to a few other cells:
+<img width="522" height="152" alt="image" src="https://github.com/user-attachments/assets/89c60886-28a5-4ea9-8ad9-03b4be73fddf" />
+
+<img width="513" height="106" alt="image" src="https://github.com/user-attachments/assets/540b186b-dc7e-4798-a549-6a61642d91b2" />
+
+<img width="472" height="42" alt="image" src="https://github.com/user-attachments/assets/bf790640-3921-4e79-9469-c44b787faa59" />
+
+- this gets our time down a bit:
+<img width="401" height="55" alt="image" src="https://github.com/user-attachments/assets/4e976555-3921-421b-9e35-8d60e3a5b076" />
+
+- since we have done some modifications, we need to update the verilog file in the results/synthesis under our current run (referenced by my_base.sdc)
+- we do this with `write_verilog [verilog file path]`
+- we can check if this did update by checking for a cell we modified in the verilog file
+- we then run floorplan on this file (using the macro issue fix steps)
+<img width="1855" height="637" alt="image" src="https://github.com/user-attachments/assets/58b23011-4423-4899-b702-1401b9fc6b6d" />
+- the area is larger than before as we had to increase it to reduce slack
+  - when it comes to chip design, it's always a tradeoff between timing, power, and area
+- we then run cts using `run_cts` with default setttings
+  - for CTS, it's always a tradeoff between QOR (quality of results) and runtime
+<img width="954" height="404" alt="image" src="https://github.com/user-attachments/assets/10d0e0e1-d0bc-400e-8902-d5797b3cb23b" />
+
+- once it's done, we can see that it created a new file:
+<img width="1213" height="35" alt="image" src="https://github.com/user-attachments/assets/991adad2-28f4-4474-84d4-06dc6acfdf24" />
+
 ## Lab steps to verify CTS runs
+- there are tcl command files for each process:
+<img width="1773" height="41" alt="image" src="https://github.com/user-attachments/assets/2fcf0c59-6d68-4235-a687-1643439cb535" />
+
+- if we go into the cts.tcl file, we can see procs, which are similar to functions or methods in other programming languages
+<img width="1764" height="732" alt="image" src="https://github.com/user-attachments/assets/61e5a6b9-9ec2-4280-89db-506549ca2fde" />
+
+what it's doing:
+- ` puts_info "Running TritonCTS..."` displays message
+- `TIMER::timer_start` sets timer
+- `try_catch openroad -exit $::env(SCRIPTS_DIR)/openroad/or_cts.tcl |& tee $::env(TERMINAL_OUTPUT) [index_file $::env(cts_log_file_tag).log 0]` opens openroad, passes control to a script inside the openroad folder (or_cts.tcl)
+  - if we go to that file directory, you can see that there are more .tcl files, and none for synthesis, as only some processes under openlane are handled by openroad
+<img width="1344" height="55" alt="image" src="https://github.com/user-attachments/assets/e589ebeb-6a7b-480d-9484-c8fcb60be6aa" />
+
+<img width="593" height="388" alt="image" src="https://github.com/user-attachments/assets/61d5fe36-ede4-4d2d-b0a0-b8b7fcd26e94" />
+
+- we then open up the or_cts.tcl:
+<img width="1811" height="801" alt="image" src="https://github.com/user-attachments/assets/e74d287f-a937-4369-acbd-8f003454e9e0" />
+
+what it's doing:
+- `if {[catch {read_lef $::env(MERGED_LEF_UNPADDED)} errmsg]}` flags an error message if there is no MERGED_LEF_UNPADDED
+- CURRENT_DEF is the currently used .def file:
+<img width="818" height="50" alt="image" src="https://github.com/user-attachments/assets/5b971087-9989-4f3d-b8c4-d65198cfbdff" />
+
+- the next steps will used this file
+- this is the actual CTS command, where control is passed to TritonCTS 
+<img width="787" height="132" alt="image" src="https://github.com/user-attachments/assets/06065cc2-1db7-41c6-8ca5-d4c457dbf165" />
+
+- CTS_CLK_BUFFER_LIST is the list of clock buffer cells
+- CTS_ROOT_BUFFER, something found in the README from earlier, which is sky130_fd_sc_hd__clkbuf_16, and the max capacitance is the max capacitance of the output pin of this
+  - you can find the specific information in the typical lib file from earlier
+> note: I ommitted many this in the video because the vm seems to have different variables and some changes to the code overall compared to what is shown in the tutorial
 # Timing Analysis with real clocks using openSTA
 ## Setup timing analysis using real clocks
 - since this is now a real clock, you need buffers
