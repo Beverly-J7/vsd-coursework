@@ -38,9 +38,17 @@ algorithm:
 
 # Power distribution network and routing
 ## Lab steps to build power distribution network
+- if you exit openlane, you can get back in and back where you left off by running `prep -design picorv32a -tag [date]`
+<img width="1361" height="383" alt="image" src="https://github.com/user-attachments/assets/21137c90-36dc-4bb0-ab19-494fd06a7d41" />
+
+- we then `gen_pdn` to generate power distribution network
+- this reads the def file and creates the grid and straps for power/ground
+- here, it's creating the rails for the standard cell rows
+<img width="804" height="685" alt="image" src="https://github.com/user-attachments/assets/81e4c074-fbec-49b9-8424-bbcc616d3dd9" />
+- the pitch is the height of the standard cells (or the standard cells need to be a multiple of the pitch), as they need to be placed in the space between each of the rails
+- power/ground -> pads -> straps -> cells
 
 ## Lab steps from power straps to std cell power
-(first portion only, start when changes to terminal window again)
 
 <img width="577" height="384" alt="image" src="https://github.com/user-attachments/assets/a9684f19-9db6-4553-949f-54f3e7c78e49" />
 
@@ -49,10 +57,15 @@ algorithm:
 - vertical red and blue are the stripes (connected to the ring on both sides)
 - crosses are vias
 - boxes in the green area are standard cells (placed in rows labelled standard cell row)
-- these power stripes are connected to the standard cell rails to supply power to standard cells, macros are connected similarly
+- these power straps are connected to the standard cell rails to supply power to standard cells, macros are connected similarly
+- if you see the image from the last section, the first layer definition is for the rails, then the straps, and then all of the connectivity (the xs on this current diagram)
+- the next step is routing
+- you can see that the current def has updated:
+<img width="717" height="50" alt="image" src="https://github.com/user-attachments/assets/879d8646-abb9-4186-9387-bbbd6cfe7d05" />
+
 ## Basics of global and detail routing and configure TritonRoute
 
-(insert notes from first half here): 4:13
+- run routing with `run_routing`
 - tritonroute is used for routing when `run_routing` is done
 - routing is divided into 2 steps, global/fast route and detailed route
   - global route is divded into grid cells for speed reasons, makes a route guide
@@ -119,4 +132,13 @@ algorithm:
 
 - line 2-3: for each APC, need to find the associated cost
 - line 6: do minimum spanning tree (mst) for this
+
+- my routing does not have any violations 
+<img width="883" height="494" alt="image" src="https://github.com/user-attachments/assets/ba8c406e-6d16-4aee-b111-6847088644a8" />
+
+- the process also automatically extracts the spef, so that is skipped too
+- <img width="813" height="343" alt="image" src="https://github.com/user-attachments/assets/eb6c4184-6542-41b1-9e1c-9e63ab88ef09" />
+
+- we can see that there is a new verilog file
+- <img width="1234" height="69" alt="image" src="https://github.com/user-attachments/assets/215b2191-31d1-4f93-9da8-05c0286229ab" />
 
